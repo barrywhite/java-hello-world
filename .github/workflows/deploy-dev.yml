@@ -16,13 +16,14 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'adopt'
+          distribution: 'temurin'
+          cache: 'maven'
       
       - name: Instalar dependencias
         run: |
-          ./mvnw dependency:go-offline -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
+          mvn dependency:go-offline -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
 
       - name: Compilar aplicação
-        run: ./mvnw clean package -DskipTests -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
+        run: mvn clean package -DskipTests -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
           
 
