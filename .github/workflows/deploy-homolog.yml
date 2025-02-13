@@ -1,0 +1,28 @@
+name: Deploy to Hom
+
+on:
+  push:
+    branches:
+      - homolog
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'adopt'
+      
+      - name: Instalar dependencias
+        run: |
+          ./mvnw dependency:go-offline -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
+
+      - name: Compilar aplicação
+        run: ./mvnw clean package -DskipTests -Dmaven.test.skip=true -Dspring.jvm.memory="-Xmx512m -Xms256m"
+          
+
